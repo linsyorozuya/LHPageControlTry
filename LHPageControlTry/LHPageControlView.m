@@ -79,7 +79,8 @@ static const CGFloat kPageWidth = 10;
         _hightLightView.layer.cornerRadius = kPageWidth/2;
         
         //---创建所有高亮圆
-        _topHidenHightLightCircles = [[UIView alloc]initWithFrame:CGRectMake(0, 0, (kPageWidth + 5)*count, kPageHeight)                                                                                                                                                                                   ];
+        _topHidenHightLightCircles = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kPageWidth, kPageHeight)                                                                                                                                                                                   ];
+        _topHidenHightLightCircles.layer.cornerRadius = kPageWidth/2;
         for (int i = 0; i < count; i++) {
             UIImageView *circle = [[UIImageView alloc]initWithFrame:[self countCurrentHightLightRectWithIndex:i ]];
             circle.backgroundColor = [UIColor colorWithRed:0.898 green:0.992 blue:1.000 alpha:1.00];
