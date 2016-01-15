@@ -159,55 +159,47 @@ static const CGFloat kPageWidth = 10;
     //---UIview 实现
     
     {
-    //    _hightLightView.centerX = 25 + distance*(kPageWidth+5);
-        //---移动高亮层的动画
-        _hightLightView.frame = CGRectMake(20+distance*(kPageHeight+5),(self.height - kPageHeight)/2, kPageWidth, kPageHeight);
-        _topHidenHightLightCircles.frame = CGRectMake(- (kPageWidth + 5) * distance , 0 , kPageWidth, kPageHeight);
-        
         //---计算两个圆圈间移动的范围 （ 0 ~ 1 ）
         CGFloat scale = distance - (int)distance;
         if (scale == 0 && distance>=1) {
             scale = 1;
         }
+        //移动距离
+        CGFloat moveDistance = distance*(kPageHeight+5);
+        //设置房射变换
+        CGAffineTransform transform = CGAffineTransformIdentity;
+        
+        //------_hightLightView
+        //设置移动距离
+        transform = CGAffineTransformTranslate(transform, moveDistance, 0);
         
         //---移动的范围 （ 0 ~ 0.2 ）之间，缩小大小
         if (scale >= 0 && scale <= 0.2) {
-            //缩小
-            _hightLightView.width = kPageWidth*(1.0-scale);
-            _hightLightView.height = kPageHeight*(1.0-scale);
-            //调整中心
-            _hightLightView.centerX = 25 + distance*(kPageWidth+5);
-            _hightLightView.centerY = self.height/2.0;
-            
-            _hightLightView.layer.cornerRadius = _hightLightView.width/2;
-
+            transform = CGAffineTransformScale(transform, 1.0-scale, 1.0-scale);
         }
         
-        //---移动的范围 （ 0.2 ~ 0.8 ）之间，缩小大小到 0.8 倍
+        //---移动的范围 （ 0.2 ~ 0.8 ）之间，缩小大小固定为0.8
         if (scale > 0.2 && scale < 0.8) {
-            //缩小
-            _hightLightView.width = kPageWidth*0.8;
-            _hightLightView.height = kPageHeight*0.8;
-            //调整中心
-            _hightLightView.centerX = 25 + distance*(kPageWidth+5);
-            _hightLightView.centerY = self.height/2.0;
-            
-            _hightLightView.layer.cornerRadius = kPageWidth*0.8/2;
+            transform = CGAffineTransformScale(transform, 0.8, 0.8);
         }
         
-        //---移动的范围 （ 0 ~ 0.2 ）之间，放大大小
-        if (scale >= 0.8 && scale <= 1.0) {
-            
-            _hightLightView.width = kPageWidth*scale;
-            _hightLightView.height = kPageHeight*scale;
-
-            _hightLightView.centerX = 25 + distance*(kPageWidth+5);
-            _hightLightView.centerY = self.height/2.0;
-            
-            _hightLightView.layer.cornerRadius = _hightLightView.width/2;
-
+        //---移动的范围 （ 0.8 ~ .0 ）之间，缩小大小
+        if (scale > 0.8 && scale <= 1) {
+            transform = CGAffineTransformScale(transform, scale, scale);
         }
         
+        //---应用变换到layer
+        _hightLightView.layer.affineTransform = transform;
+        
+        
+        //------_topHidenHightLightCircles
+        //---重置变换，应用到 _topHidenHightLightCircles
+        transform = CGAffineTransformIdentity;
+        //---设置移动距离与 _hightLightView 往相反方向移动相应距离。造成错觉
+        transform = CGAffineTransformTranslate(transform, -moveDistance, 0);
+        //---应用变换到layer
+        _topHidenHightLightCircles.layer.affineTransform = transform;
+    
         NSLog(@"--center:%@",NSStringFromCGPoint(_hightLightView.center));
     }
     
