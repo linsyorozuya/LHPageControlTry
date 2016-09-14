@@ -1,7 +1,7 @@
 # LHPageControlTry 有过度pageControl
 ###模仿锤子桌面底下有点过渡效果的pageControl
 
-具体实现思路见：http://linbling.com/2016/01/02/shi-xian-smartisan-oszhong-shou-ye-de-pagecontrollxiao-guo/
+具体实现思路见：[这里](http://linbling.com/2016/01/02/shi-xian-smartisan-oszhong-shou-ye-de-pagecontrollxiao-guo/)
 
 #####锤子效果如图
 
